@@ -1,4 +1,4 @@
-import { getUnixTimeFromUTC, getDateFromTime, getUTCTime, getLocalTime, getDateTime } from './utc-date'
+import { getUnixTimeFromUTC, getDateFromTime, getLocalTime, getDateTime } from './utc-date'
 
 function binarySearchInRange (untils, value) {
   if (value < untils[0]) {
@@ -48,14 +48,36 @@ function getUTCOffset (date, timeZone) {
   return { abbreviation, offset }
 }
 
+const round3 = (input) => {
+  const x = 1000
+  return Math.round((input + Number.EPSILON) * x) / x
+}
+
+const makeUTCTime = (epochMillis) => {
+  const epochSeconds = epochMillis / 1000
+  const dayA = ~~(epochSeconds / (24 * 60 * 60))
+  const seconds_ = ~~(epochSeconds % (24 * 60 * 60))
+  const milliseconds = (1000 * round3(epochSeconds % 1))
+  const seconds = seconds_ % 60
+  const mins_ = ~~(seconds_ / 60)
+  const hours = ~~(mins_ / 60)
+  const minutes = mins_ % 60
+  const dayOfWeek = (dayA + 4) % 7
+  const year_ = ~~(((dayA * 4) + 2) / 1461)
+  const year = 1900 + year_ + 70
+  const leap = (year & 3) === 0 ? 1 : 0
+  const dayB = dayA - ~~(((year_ * 1461) + 1) / 4)
+  const dayC = dayB + ((dayB > (58 + leap)) ? (leap ? 1 : 2) : 0)
+  const month = ~~(((dayC * 12) + 6) / 367)
+  const day = dayC + 1 - ~~(((month * 367) + 5) / 12)
+  return { year, month: month + 1, day: day, dayOfWeek, hours, minutes, seconds, milliseconds }
+}
+
 function getZonedTime (date, timeZone) {
   const gotUnixTime = typeof date === 'number'
   const unixTime = gotUnixTime ? date : date.getTime()
   const { abbreviation, offset } = getTransition(unixTime, timeZone)
-  if (gotUnixTime || offset) {
-    date = new Date(unixTime - offset * 60000)
-  }
-  const time = getUTCTime(date)
+  const time = makeUTCTime(unixTime - offset * 60000)
   time.zone = { abbreviation, offset }
   attachEpoch(time, unixTime)
   return time

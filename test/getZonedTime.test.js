@@ -108,3 +108,23 @@ it('when date matches timezone transition untils value', () => {
   expect(zone.offset).toEqual(0)
   expect(epoch).toEqual(1477789200000)
 })
+
+it('supports last day in february during leap year', () => {
+  const utc = findTimeZone('Europe/Berlin')
+  const utcDate = new Date(Date.UTC(2020, 1, 29, 22, 59, 1, 314))
+  const berlinTime = getZonedTime(utcDate, utc)
+  expect(typeof berlinTime === 'object').toBeTruthy()
+  const { year, month, day, dayOfWeek, hours, minutes, seconds, milliseconds, zone, epoch } = berlinTime
+  expect(year).toEqual(2020)
+  expect(month).toEqual(2)
+  expect(day).toEqual(29)
+  expect(dayOfWeek).toEqual(6)
+  expect(hours).toEqual(23)
+  expect(minutes).toEqual(59)
+  expect(seconds).toEqual(1)
+  expect(milliseconds).toEqual(314)
+  expect(typeof zone === 'object').toBeTruthy()
+  expect(zone.abbreviation).toEqual('CET')
+  expect(zone.offset).toEqual(-60)
+  expect(epoch).toEqual(1583017141314)
+})
