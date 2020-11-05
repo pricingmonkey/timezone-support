@@ -53,6 +53,7 @@ const round3 = (input) => {
   return Math.round((input + Number.EPSILON) * x) / x
 }
 
+// Source: https://www.avrfreaks.net/forum/converting-unix-time-date-stamp-human-readable-form
 const makeUTCTime = (epochMillis) => {
   const epochSeconds = epochMillis / 1000
   const dayA = ~~(epochSeconds / (24 * 60 * 60))
