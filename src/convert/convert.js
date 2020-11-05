@@ -1,12 +1,34 @@
 import { getUnixTimeFromUTC, getDateFromTime, getUTCTime, getLocalTime, getDateTime } from './utc-date'
 
-function findTransitionIndex (unixTime, timeZone) {
-  const { untils } = timeZone
-  for (let i = 0, length = untils.length; i < length; ++i) {
-    if (unixTime < untils[i]) {
-      return i
+function binarySearchInRange (untils, value) {
+  if (value < untils[0]) {
+    return 0
+  }
+  if (value > untils[untils.length - 1]) {
+    return untils.length - 1
+  }
+
+  let high = untils.length - 1
+  let low = 0
+
+  while (high >= low) {
+    var mid = (high + low) >> 1
+
+    if (value === untils[mid] || (value > untils[mid] && value < untils[mid + 1])) {
+      return mid + 1
+    } else if (value < untils[mid]) {
+      high = mid - 1
+    } else {
+      low = mid + 1
     }
   }
+
+  return -(mid + 1)
+}
+
+function findTransitionIndex (unixTime, timeZone) {
+  const { untils } = timeZone
+  return binarySearchInRange(untils, unixTime)
 }
 
 function getTransition (unixTime, timeZone) {

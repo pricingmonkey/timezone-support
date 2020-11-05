@@ -88,3 +88,23 @@ it('optimizes conversion to UTC', () => {
   expect(zone.offset).toEqual(0)
   expect(epoch).toEqual(1530523815234)
 })
+
+it('when date matches timezone transition untils value', () => {
+  const utc = findTimeZone('Europe/London')
+  const utcDate = new Date(1477789200000)
+  const berlinTime = getZonedTime(utcDate, utc)
+  expect(typeof berlinTime === 'object').toBeTruthy()
+  const { year, month, day, dayOfWeek, hours, minutes, seconds, milliseconds, zone, epoch } = berlinTime
+  expect(year).toEqual(2016)
+  expect(month).toEqual(10)
+  expect(day).toEqual(30)
+  expect(dayOfWeek).toEqual(0)
+  expect(hours).toEqual(1)
+  expect(minutes).toEqual(0)
+  expect(seconds).toEqual(0)
+  expect(milliseconds).toEqual(0)
+  expect(typeof zone === 'object').toBeTruthy()
+  expect(zone.abbreviation).toEqual('GMT')
+  expect(zone.offset).toEqual(0)
+  expect(epoch).toEqual(1477789200000)
+})
