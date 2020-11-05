@@ -17,7 +17,7 @@ function getTransition (unixTime, timeZone) {
 }
 
 function attachEpoch (time, unixTime) {
-  Object.defineProperty(time, 'epoch', { value: unixTime })
+  time.epoch = unixTime
 }
 
 function getUTCOffset (date, timeZone) {
