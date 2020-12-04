@@ -1,6 +1,8 @@
 // https://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap04.html#tag_04_14
-// For dates before 1 Jan 1969 results might not be as expected & different from Date.UTC(..)
 function getUnixTimeFromUTC ({ year, month, day, hours = 0, minutes = 0, seconds = 0, milliseconds = 0 }) {
+  if (year < 1970) {
+    return Date.UTC(year, month - 1, day, hours, minutes, seconds, milliseconds)
+  }
   const mdays = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
   let _year = year - 1900
   let yday = mdays[month - 1] + day - 1

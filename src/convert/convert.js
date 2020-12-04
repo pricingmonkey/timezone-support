@@ -1,4 +1,4 @@
-import { getUnixTimeFromUTC, getDateFromTime, getLocalTime, getDateTime } from './utc-date'
+import { getUnixTimeFromUTC, getDateFromTime, getLocalTime, getDateTime, getUTCTime } from './utc-date'
 
 function binarySearchInRange (untils, value) {
   if (value < untils[0]) {
@@ -55,6 +55,9 @@ const round3 = (input) => {
 
 // Source: https://www.avrfreaks.net/forum/converting-unix-time-date-stamp-human-readable-form
 const makeUTCTime = (epochMillis) => {
+  if (epochMillis < 0) {
+    return getUTCTime(new Date(epochMillis))
+  }
   const epochSeconds = epochMillis / 1000
   const dayA = ~~(epochSeconds / (24 * 60 * 60))
   const seconds_ = ~~(epochSeconds % (24 * 60 * 60))
