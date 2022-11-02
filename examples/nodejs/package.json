@@ -41,7 +41,7 @@
   },
   "main": "out/app.js",
   "dependencies": {
-    "timezone-support": "2.0.x"
+    "timezone-support": "2.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.4.5",
