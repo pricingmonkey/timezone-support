@@ -1,4 +1,5 @@
 .DS_Store
+.idea
 coverage
 dist
 examples/**/out
@@ -7,5 +8,5 @@ src/lookup/data*.js
 src/index-*.d.ts
 src/lookup/data-*.d.ts
 test/browser
-test/typings.test.js
+test/types.test.js
 .idea
