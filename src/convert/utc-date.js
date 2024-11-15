@@ -4,7 +4,7 @@ function getUnixTimeFromUTC ({ year, month, day, hours = 0, minutes = 0, seconds
     return Date.UTC(year, month - 1, day, hours, minutes, seconds, milliseconds)
   }
   const mdays = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
-  let _year = year - 1900
+  const _year = year - 1900
   let yday = mdays[month - 1] + day - 1
   const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
   if (isLeap && month >= 3) {

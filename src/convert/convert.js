@@ -12,7 +12,7 @@ function binarySearchInRange (untils, value) {
   let low = 0
 
   while (high >= low) {
-    var mid = (high + low) >> 1
+    const mid = (high + low) >> 1
 
     if (value === untils[mid] || (value > untils[mid] && value < untils[mid + 1])) {
       return mid + 1
